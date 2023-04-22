@@ -1,4 +1,4 @@
-package contact;
+package schemas.contact;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;

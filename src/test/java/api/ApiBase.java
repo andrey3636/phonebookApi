@@ -1,4 +1,4 @@
-package api.contact;
+package api;
 
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
