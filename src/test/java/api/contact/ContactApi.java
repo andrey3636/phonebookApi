@@ -6,12 +6,10 @@ import io.restassured.response.Response;
 import schemas.contact.ContactDto;
 
 public class ContactApi extends ApiBase {
-
     Response response;
-
     ContactDto dto;
-
     Faker faker = new Faker();
+
 
     public ContactDto randomDataBodyForCreateContact() {
         dto = new ContactDto();
@@ -24,18 +22,16 @@ public class ContactApi extends ApiBase {
     public ContactDto randomDataBodyForEditContact(Integer contactId) {
         dto = new ContactDto();
         dto.setId(contactId);
-        dto.setFirstName("Andrey");
-        dto.setLastName("Popovics");
+        dto.setFirstName("leo");
+        dto.setLastName("Mikhailov");
         dto.setDescription("I am");
         return dto;
     }
 
     public Response createContact(Integer code) {
         String endpoint = "/api/contact";
-
         response = postRequest(endpoint, code, randomDataBodyForCreateContact());
         return response;
-
     }
 
     public void editExistingContact(Integer code, Integer contactId) {
@@ -45,13 +41,12 @@ public class ContactApi extends ApiBase {
 
     public void deleteExistingContact(Integer code, int contactId) {
         String endpoint = "/api/contact/{id}";
-        deleteRequestWithParam(endpoint, code, contactId);
+        deleteRequest(endpoint, code, contactId);
     }
 
     public Response getContact(Integer code, int contactId) {
         String endpoint = "/api/contact/{id}";
-        response = getRequestWithParam(endpoint, code, contactId);
+        response = getRequestWithParam(endpoint, code, "id", contactId);
         return response;
-
     }
 }

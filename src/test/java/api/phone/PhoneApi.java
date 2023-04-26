@@ -1,56 +1,57 @@
 package api.phone;
 
 import api.ApiBase;
-import com.github.javafaker.Faker;
 import io.restassured.response.Response;
 import schemas.phone.PhoneDto;
 
 public class PhoneApi extends ApiBase {
     Response response;
-
     PhoneDto dto;
 
-    Faker faker = new Faker();
-
-    public PhoneDto randomDataBodyForCreatePhone() {
+    public PhoneDto randomDataForCreatePhone() {
         dto = new PhoneDto();
-        dto.setCountryCode("+93");
-        dto.setPhoneNumber(faker.phoneNumber().phoneNumber());
-        dto.setContactId(4799);
-        return dto;
-    }
-
-    public PhoneDto randomDataBodyForEditPhone(Integer contactId) {
-        dto = new PhoneDto();
-        dto.setId(contactId);
         dto.setCountryCode("+49");
-        dto.setPhoneNumber(faker.phoneNumber().phoneNumber());
-        dto.setContactId(4799);
+        dto.setPhoneNumber("15487789652");
+        dto.setContactId(4804);
         return dto;
     }
 
-    public Response createPhone(Integer code) {
-        String endpoint = "/api/phone";
+    int contactId;
 
-        response = postRequest(endpoint, code, randomDataBodyForCreatePhone());
-        return response;
+    public PhoneDto randomDataForExistingPhone(Integer phoneId) {
+        dto = new PhoneDto();
+        dto.setCountryCode("+49");
+        dto.setPhoneNumber("15487789652");
+        dto.setContactId(4804);
+        dto.setId(phoneId);
+        return dto;
+    }
+
+    public void createPhone(Integer code) {
+        String endPoint = "/api/phone";
+        postRequest(endPoint, code, randomDataForCreatePhone());
 
     }
 
-    public void editExistingPhone(Integer code, Integer contactId) {
-        String endpoint = "/api/phone";
-        putRequest(endpoint, code, randomDataBodyForEditPhone(contactId));
+    public void updatePhone(Integer code, Integer phoneId) {
+        String endPoint = "/api/phone";
+        putRequest(endPoint, code, randomDataForExistingPhone(phoneId));
     }
 
-    public void deleteExistingContact(int code, Integer contactId) {
+    public void deletePhone(Integer code, int phoneId) {
         String endpoint = "/api/phone/{id}";
-        deleteRequestWithParam(endpoint, code, contactId);
+        deleteRequest(endpoint, code, phoneId);
     }
 
-    public Response getContactPhone(Integer code, int contactId) {
-        String endpoint = "/api/phone/{contactId}/all";
-        response = getRequestWithParam(endpoint, code, contactId);
+    public Response getCreatedPhoneByPhoneId(Integer code, int phoneId) {
+        String endpoint = "/api/phone/{id}";
+        response = getRequestWithParam(endpoint, code, "id", phoneId);
         return response;
+    }
 
+    public Response getAllPhoneByContactId(Integer code) {
+        String endPoint = "/api/phone/{contactId}/all";
+        response = getRequestWithParam(endPoint, code, "contactId", 4804);
+        return response;
     }
 }
